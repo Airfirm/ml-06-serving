@@ -817,3 +817,90 @@ dtype: int64
 2026-07-21 19:38:03 | INFO | M06 | Features: ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
 2026-07-21 19:38:03 | INFO | M06 | Artifact: artifacts\model.joblib
 2026-07-21 19:38:03 | INFO | M06 | ========================
+2026-07-26 16:47:46 | INFO | M06 | === RUN START ===
+2026-07-26 16:47:46 | INFO | M06 | project=M06
+2026-07-26 16:47:46 | INFO | M06 | repo_dir=ml-06-serving
+2026-07-26 16:47:46 | INFO | M06 | python=3.14.2
+2026-07-26 16:47:46 | INFO | M06 | os=Windows 11
+2026-07-26 16:47:46 | INFO | M06 | shell=powershell
+2026-07-26 16:47:46 | INFO | M06 | cwd=notebooks
+2026-07-26 16:47:46 | INFO | M06 | github_actions=False
+2026-07-26 16:47:46 | INFO | M06 | ========================
+2026-07-26 16:47:46 | INFO | M06 | START CUSTOM NOTEBOOK
+2026-07-26 16:47:46 | INFO | M06 | ========================
+2026-07-26 16:47:46 | INFO | M06 | Notebook directory: c:\Repos\ml-06-serving\notebooks
+2026-07-26 16:47:46 | INFO | M06 | Project root: c:\Repos\ml-06-serving
+2026-07-26 16:47:46 | INFO | M06 | Expected project log: c:\Repos\ml-06-serving\project.log
+2026-07-26 16:47:46 | INFO | M06 | Model artifact path: c:\Repos\ml-06-serving\artifacts\wine_model_bundle.joblib
+2026-07-26 16:47:46 | INFO | M06 | Load data.................
+2026-07-26 16:47:46 | INFO | M06 | Loading dataset: sklearn wine
+2026-07-26 16:47:46 | INFO | M06 | Loaded: 178 rows, 15 columns
+2026-07-26 16:47:46 | INFO | M06 | Features: ['alcohol', 'malic_acid', 'ash', 'alcalinity_of_ash', 'magnesium', 'total_phenols', 'flavanoids', 'nonflavanoid_phenols', 'proanthocyanins', 'color_intensity', 'hue', 'od280/od315_of_diluted_wines', 'proline']
+2026-07-26 16:47:46 | INFO | M06 | Target classes: [np.str_('class_0'), np.str_('class_1'), np.str_('class_2')]
+2026-07-26 16:47:46 | INFO | M06 | Check data quality........
+2026-07-26 16:47:46 | INFO | M06 | Missing values: 0
+2026-07-26 16:47:46 | INFO | M06 | Duplicate rows: 0
+2026-07-26 16:47:46 | INFO | M06 | Class counts:
+2026-07-26 16:47:46 | INFO | M06 |   class_1: 71
+2026-07-26 16:47:46 | INFO | M06 |   class_0: 59
+2026-07-26 16:47:46 | INFO | M06 |   class_2: 48
+2026-07-26 16:47:46 | INFO | M06 | Split data................
+2026-07-26 16:47:46 | INFO | M06 | Train instances: 142
+2026-07-26 16:47:46 | INFO | M06 | Test instances: 36
+2026-07-26 16:47:46 | INFO | M06 | Train models..............
+2026-07-26 16:47:46 | INFO | M06 | Training DecisionTreeClassifier
+2026-07-26 16:47:46 | INFO | M06 | Training RandomForestClassifier
+2026-07-26 16:47:47 | INFO | M06 | Training complete
+2026-07-26 16:47:47 | INFO | M06 | Evaluate models...........
+2026-07-26 16:47:47 | INFO | M06 | Decision Tree test accuracy: 0.944
+2026-07-26 16:47:47 | INFO | M06 | Random Forest test accuracy: 1.000
+2026-07-26 16:47:47 | INFO | M06 | Cross-validate model......
+2026-07-26 16:47:52 | INFO | M06 | Cross-validation scores: [0.972, 1.0, 1.0, 0.943, 1.0]
+2026-07-26 16:47:52 | INFO | M06 | Mean CV accuracy: 0.983
+2026-07-26 16:47:52 | INFO | M06 | CV standard deviation: 0.023
+2026-07-26 16:47:52 | INFO | M06 | Create classification report
+2026-07-26 16:47:52 | INFO | M06 | Classification report:
+2026-07-26 16:47:52 | INFO | M06 |               precision    recall  f1-score   support
+2026-07-26 16:47:52 | INFO | M06 |
+2026-07-26 16:47:52 | INFO | M06 |      class_0       1.00      1.00      1.00        12
+2026-07-26 16:47:52 | INFO | M06 |      class_1       1.00      1.00      1.00        14
+2026-07-26 16:47:52 | INFO | M06 |      class_2       1.00      1.00      1.00        10
+2026-07-26 16:47:52 | INFO | M06 |
+2026-07-26 16:47:52 | INFO | M06 |     accuracy                           1.00        36
+2026-07-26 16:47:52 | INFO | M06 |    macro avg       1.00      1.00      1.00        36
+2026-07-26 16:47:52 | INFO | M06 | weighted avg       1.00      1.00      1.00        36
+2026-07-26 16:47:53 | INFO | M06 | Create confusion matrix chart
+2026-07-26 16:47:53 | INFO | M06 | Calculate feature importance
+2026-07-26 16:47:53 | INFO | M06 | Top five features:
+2026-07-26 16:47:53 | INFO | M06 |   color_intensity: 0.181
+2026-07-26 16:47:53 | INFO | M06 |   flavanoids: 0.173
+2026-07-26 16:47:53 | INFO | M06 |   proline: 0.151
+2026-07-26 16:47:53 | INFO | M06 |   alcohol: 0.112
+2026-07-26 16:47:53 | INFO | M06 |   hue: 0.100
+2026-07-26 16:47:53 | INFO | M06 | Create feature importance chart
+2026-07-26 16:47:53 | INFO | M06 | Save model bundle.........
+2026-07-26 16:47:54 | INFO | M06 | Saved model bundle to: c:\Repos\ml-06-serving\artifacts\wine_model_bundle.joblib
+2026-07-26 16:47:54 | INFO | M06 | Artifact exists: True
+2026-07-26 16:47:54 | INFO | M06 | Prediction function created
+2026-07-26 16:47:54 | INFO | M06 | Test valid prediction request
+2026-07-26 16:47:54 | INFO | M06 | Sample payload: {'alcohol': 14.1, 'malic_acid': 2.16, 'ash': 2.3, 'alcalinity_of_ash': 18.0, 'magnesium': 105.0, 'total_phenols': 2.95, 'flavanoids': 3.32, 'nonflavanoid_phenols': 0.22, 'proanthocyanins': 2.38, 'color_intensity': 5.75, 'hue': 1.25, 'od280/od315_of_diluted_wines': 3.17, 'proline': 1510.0}
+2026-07-26 16:47:54 | INFO | M06 | Predicted cultivar: class_0
+2026-07-26 16:47:54 | INFO | M06 | Prediction probabilities: {np.str_('class_0'): 0.99, np.str_('class_1'): 0.01, np.str_('class_2'): 0.0}
+2026-07-26 16:47:54 | INFO | M06 | Test missing-feature validation
+2026-07-26 16:47:54 | INFO | M06 | Validation test passed: Missing required features: ['alcohol']
+2026-07-26 16:47:54 | INFO | M06 | ========================
+2026-07-26 16:47:54 | INFO | M06 | CUSTOM PROJECT SUMMARY
+2026-07-26 16:47:54 | INFO | M06 | ========================
+2026-07-26 16:47:54 | INFO | M06 | Dataset: sklearn wine
+2026-07-26 16:47:54 | INFO | M06 | Target: wine cultivar
+2026-07-26 16:47:54 | INFO | M06 | Feature count: 13
+2026-07-26 16:47:54 | INFO | M06 | Best held-out model: Random Forest
+2026-07-26 16:47:54 | INFO | M06 | Decision Tree accuracy: 0.944
+2026-07-26 16:47:54 | INFO | M06 | Random Forest accuracy: 1.000
+2026-07-26 16:47:54 | INFO | M06 | Mean CV accuracy: 0.983
+2026-07-26 16:47:54 | INFO | M06 | CV standard deviation: 0.023
+2026-07-26 16:47:54 | INFO | M06 | Top feature: color_intensity (0.181)
+2026-07-26 16:47:54 | INFO | M06 | Saved artifact: c:\Repos\ml-06-serving\artifacts\wine_model_bundle.joblib
+2026-07-26 16:47:54 | INFO | M06 | ========================
+2026-07-26 16:47:54 | INFO | M06 | Notebook executed successfully!
+2026-07-26 16:47:54 | INFO | M06 | ========================
