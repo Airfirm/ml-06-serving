@@ -189,7 +189,7 @@ artifacts/wine_model_bundle.joblib
 Complete this section with the values written by the notebook.
 
 | Metric | Result |
-|---|---:|
+| --- | ---: |
 | Decision Tree test accuracy | Add after running |
 | Random Forest test accuracy | Add after running |
 | Mean cross-validation accuracy | Add after running |
