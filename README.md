@@ -1,423 +1,271 @@
-# ml-06-serving
+# Module 6: Wine Cultivar Model Serving
 
-[![Workflow Guide](https://img.shields.io/badge/Pro--Guide-pro--analytics--02-green)](https://denisecase.github.io/pro-analytics-02/workflow-b-apply-example-project/)
-[![Python 3.14](https://img.shields.io/badge/python-3.14%2B-blue?logo=python)](./pyproject.toml)
-[![MIT](https://img.shields.io/badge/license-see%20LICENSE-yellow.svg)](./LICENSE)
+This project applies machine-learning model building and serving skills to a new multiclass classification problem.
 
-> Professional Python project: deploying and serving machine learning models.
+The project uses the scikit-learn wine dataset to predict a wine cultivar from chemical measurements.
+It compares a baseline Decision Tree classifier with a Random Forest ensemble, evaluates the selected model, saves a serving-ready artifact, and validates API-style prediction inputs.
 
-## Publishing Predictive Engines
+## Project Question
 
-A machine learning model learns patterns from data.
-But, once trained, the model might just sit on a single computer.
+Given the chemical measurements of a wine sample, can a machine-learning model predict which cultivar it belongs to?
 
-**Serving** a model means wrapping it in a small web service
-so anyone can send it a data request over the internet
-and get a prediction back.
+## Technical Modification
 
-In this project, we train a model that
-identifies penguin species from physical measurements,
-then deploy it so you can ask it
-**what is the most likely penguin species**
-(given the measurements you provided in the request)
-from anywhere in the world.
+The original Module 6 example trained and served a penguin species classifier. This custom project makes the following technical modifications:
 
-## Project Description
+- Replaces the penguin dataset with scikit-learn's wine dataset.
+- Predicts one of three wine cultivars.
+- Uses 13 numeric chemical measurements as features.
+- Compares a Decision Tree baseline with a Random Forest ensemble.
+- Adds five-fold stratified cross-validation.
+- Generates a classification report and confusion matrix.
+- Calculates Random Forest feature importance.
+- Saves a serving-ready model bundle instead of saving only the estimator.
+- Stores feature names, target names, validation ranges, and model metadata with the trained model.
+- Includes an API-style prediction function with input validation.
+- Writes major workflow results to `project.log`.
 
-This project focuses on learning to deploy a trained model so others can use it.
+## Dataset
 
-We learn to:
+The project uses:
 
-- save and load a trained model
-- wrap a model in a simple API or script
-- validate inputs and handle errors gracefully
-- think about drift, versioning, and monitoring
-
-## Project Dependencies
-
-This project needs additional dependencies
-
-```toml
-    "fastapi[standard]", # for serving - a web framework for building APIs
-    "uvicorn",           # for serving - ASGI server for FastAPI
-    "joblib",            # for model serialization (saving and loading models)
+```python
+from sklearn.datasets import load_wine
 ```
 
-## Project Process
+The dataset contains:
 
-A `.joblib` file is a serialized Python object that holds
-the trained model frozen to disk.
+- 178 wine samples
+- 13 numeric chemical features
+- 3 target cultivars
 
-The package `joblib` converts the in-memory **RandomForestClassifier**
-(with all its learned decision trees and their weights)
-into bytes and writes them to a file.
+The target classes are:
 
-Loading it back gives us the same trained model
-without having to retrain.
+- `class_0`
+- `class_1`
+- `class_2`
 
-This is how serving a trained model works:
-train once, save once, load once at startup,
-then predict on every incoming request.
+## Features
 
-## Example Notebook + Your Notebook
+The model uses the following features:
 
-Keep the example notebook as it is.
-Either copy it or use it to build a new notebook that ends in \_yourname.
-See [docs/your-files.md](docs/your-files.md) for more.
+- alcohol
+- malic_acid
+- ash
+- alcalinity_of_ash
+- magnesium
+- total_phenols
+- flavanoids
+- nonflavanoid_phenols
+- proanthocyanins
+- color_intensity
+- hue
+- od280/od315_of_diluted_wines
+- proline
 
-Links:
+## Models
 
-- [ml_06_case.ipynb](notebooks/ml_06_case.ipynb)
+Two models are trained and compared:
 
-## Working Files
+1. `DecisionTreeClassifier`
+2. `RandomForestClassifier`
 
-You'll work with these areas:
+The Decision Tree serves as the baseline model. The Random Forest is the ensemble model selected for the saved serving artifact.
 
-- **data/raw** - raw data for exploration (only if you add a dataset)
-- **docs/** - project narrative and documentation
-- **src/mlstudio/** - the app is an example; run only (no need to modify)
-- **notebooks/** - interactive analysis
-- **pyproject.toml** - update authorship & links
-- **zensical.toml** - update authorship & links
+## New Skills Applied
 
-## Instructions (pro-analytics-02)
+This project applies several new skills beyond the original example:
 
-Follow the
-[step-by-step workflow guide](https://denisecase.github.io/pro-analytics-02/workflow-b-apply-example-project/)
-to complete:
+### Stratified Cross-Validation
 
-1. Phase 1. **Start & Run**
-2. Phase 2. **Change Authorship**
-3. Phase 3. **Read & Understand**
-4. Phase 4. **Modify**
-5. Phase 5. **Apply**
+Five-fold stratified cross-validation is used to provide a more reliable estimate of model performance than one train-test split alone.
 
-## Challenges
+### Model Interpretation
 
-Challenges are expected.
-Sometimes instructions may not quite match your operating system.
-When issues occur, share screenshots, error messages, and details about what you tried.
-Working through issues is part of implementing professional projects.
+Random Forest feature importance is used to identify which chemical measurements contributed most strongly to predictions.
 
-## Success
+### Serving-Ready Model Bundle
 
-After completing Phase 1. **Start & Run**, you'll have your own GitHub project,
-with the example notebook executed and committed,
-and running the example module will print out:
+The saved artifact contains:
 
-```shell
-========================
-Executed successfully!
-========================
-```
+- trained model
+- feature names
+- target names
+- feature validation ranges
+- dataset and model metadata
+- held-out test accuracy
+- mean cross-validation accuracy
+- cross-validation standard deviation
 
-A new file `project.log` will appear in the root project folder.
+### Input Validation
 
-## Command Reference
+The custom prediction function checks for:
 
-<details>
-<summary>Show command reference</summary>
+- missing features
+- nonnumeric values
+- values outside the observed training range
 
-### In a machine terminal (open in your `Repos` folder)
+The function returns:
 
-After you get a copy of this repo in your own GitHub account,
-open a machine terminal in your `Repos` folder:
+- predicted cultivar
+- class probabilities
+- validation warnings
 
-```shell
-# Replace username with YOUR GitHub username.
-git clone https://github.com/username/ml-06-serving
-
-cd ml-06-serving
-code .
-```
-
-### In a VS Code terminal
-
-These are listed for convenience.
-For best results, follow the detailed instructions in
-[pro-analytics-02 guide](https://denisecase.github.io/pro-analytics-02/).
-
-```shell
-uv self update
-uv python pin 3.14
-uv lock --upgrade
-uv sync --extra dev --extra docs --upgrade
-
-uvx pre-commit install
-uvx pre-commit autoupdate
-
-git add -A
-uvx pre-commit run --all-files
-# repeat if changes were made
-uvx pre-commit run --all-files
-
-# run the example module to verify the environment (.venv/)
-uv run python -m mlstudio.app_case
-
-# TASK 1: train the example model and save it to artifacts/model.joblib.
-uv run python -m mlstudio.model_builder_case
-
-# CUSTOM: After completing your custom project,
-# Add the command to
-# train your custom model and save it to artifacts/model_yourname.joblib
-# uv run python -m mlstudio.model_builder_yourname
-
-# run common chores
-uv run ruff format .
-uv run ruff check . --fix
-uv run python -m pyright
-uv run python -m pytest
-uv run python -m zensical build
-
-# save progress
-git add -A
-git commit -m "update"
-git push -u origin main
-```
-
-</details>
-
-## Notes
-
-- Use the **UP ARROW** and **DOWN ARROW** in the terminal to scroll through past commands.
-- Use `CTRL+f` to find (and replace) text within a file.
-- You do not need to add to or modify `tests/`. They are provided for example only.
-- Many files are silent helpers. Explore as you like, but nothing is required.
-- You do NOT need to understand everything; understanding builds naturally over time.
-
-## Troubleshooting >>>
-
-If you see something like this in your terminal: `>>>` or `...`
-You accidentally started Python interactive mode.
-It happens.
-Press `Ctrl+c` (both keys together) or `Ctrl+Z` then `Enter` on Windows.
-
-## Example Output (Can Remove this Section after You Verify)
-
-```shell
-| INFO | MB | Load data.................
-| INFO | MB | Loading dataset: penguins
-| INFO | MB | Loaded: 344 rows, 7 columns
-| INFO | MB | Model rows (after dropping missing): 342
-| INFO | MB | Split data................
-| INFO | MB | Train instances: 273
-| INFO | MB | Test instances:  69
-| INFO | MB | Train model...............
-| INFO | MB | Training RandomForestClassifier on 273 instances
-| INFO | MB | Training complete
-| INFO | MB | Evaluate model............
-| INFO | MB | Test accuracy: 1.000
-| INFO | MB | Save model................
-| INFO | MB | Saved model to: artifacts\model.joblib
-| INFO | MB | Summarize.................
-| INFO | MB | ========================
-| INFO | MB | SUMMARY
-| INFO | MB | ========================
-| INFO | MB | Dataset:  penguins
-| INFO | MB | Target:   species
-| INFO | MB | Features: ['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g']
-| INFO | MB | Artifact: artifacts\model.joblib
-| INFO | MB | ========================
-| INFO | MB | ========================
-| INFO | MB | Executed successfully!
-| INFO | MB | ========================
-```
-
-## Terminal 2: Right-click and Rename "server"
-
-Open a second terminal. Right-click to rename this terminal "server".
-
-Run:
-
-```shell
-# Task 2. Start the example server
-uv run fastapi dev src/mlstudio/serve_case.py
-```
-
-Keep this terminal open.
-You should see the following which
-means it is ready to receive requests:
+## Project Structure
 
 ```text
-
-   FastAPI   Starting development server 🚀
-
-             Searching for package file structure from directories with __init__.py files
-| INFO | M06 | === RUN START ===
-| INFO | M06 | project=M06
-| INFO | M06 | repo_dir=ml-06-serving
-| INFO | M06 | python=3.14.0
-| INFO | M06 | os=Windows 11
-| INFO | M06 | shell=powershell
-| INFO | M06 | cwd=.
-| INFO | M06 | github_actions=False
-| INFO | M06 | Loading model from: artifacts\model.joblib
-| INFO | M06 | Model loaded successfully
-             Importing from C:\Repos\ml\ml-06-serving\src
-
-    module   📁 mlstudio
-             ├── 🐍 __init__.py
-             └── 🐍 serve_case.py
-
-      code   Importing the FastAPI app object from the module with the following code:
-
-             from mlstudio.serve_case import app
-
-       app   Using import string: mlstudio.serve_case:app
-
-    server   Server started at http://127.0.0.1:8000
-    server   Documentation at http://127.0.0.1:8000/docs
-
-       tip   Running in development mode, for production use: fastapi run
-
-             Logs:
-
-      INFO   Will watch for changes in these directories: ['C:\\Repos\\ml\\ml-06-serving']
-      INFO   Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-      INFO   Started reloader process [31516] using WatchFiles
-| INFO | M06 | === RUN START ===
-| INFO | M06 | project=M06
-| INFO | M06 | repo_dir=ml-06-serving
-| INFO | M06 | python=3.14.0
-| INFO | M06 | os=Windows 11
-| INFO | M06 | shell=powershell
-| INFO | M06 | cwd=.
-| INFO | M06 | github_actions=False
-| INFO | M06 | Loading model from: artifacts\model.joblib
-| INFO | M06 | Model loaded successfully
-      INFO   Started server process [10012]
-      INFO   Waiting for application startup.
-      INFO   Application startup complete.
+ml-06-serving/
+├── artifacts/
+│   └── wine_model_bundle.joblib
+├── docs/
+│   └── index.md
+├── notebooks/
+│   └── module6_wine_serving_femi_rewritten.ipynb
+├── project.log
+├── README.md
+└── pyproject.toml
 ```
 
-## Terminal 3: Right-click and Rename "client"
+## How to Run the Notebook
 
-Open a third terminal.
-Right-click and rename it "client".
+Open the project in VS Code and activate the project environment.
 
-Use this terminal to **send a request** to the server.
+From the root project folder, start JupyterLab:
 
-We are making a request to the "/predict" endpoint.
-
-Provide information about a penguin and ask
-for the predicted species.
-
-Line continuation characters for long commands are different by operating system.
-
-- PowerShell uses a backtick.
-- Bash and zsh use a back slash
-
-The `curl` command means "check url".
-
-- X defines the type of request
-- H provides the requested response format (json data)
-- d provides a json object (a penguin where we want to get the species)
-
-### Windows PowerShell
-
-```shell
-# Task 3. Send a request to the server
-
-curl -X POST http://127.0.0.1:8000/predict `
-     -H "Content-Type: application/json" `
-     -d '{"bill_length_mm": 39.1, "bill_depth_mm": 18.7, "flipper_length_mm": 181, "body_mass_g": 3750}'
+```powershell
+uv run jupyter lab
 ```
 
-### macOS / Linux
+Open:
 
-```shell
-# Task 3. Send a request to the server
+```text
+"https://github.com/Airfirm/ml-06-serving/"
 
-curl -X POST http://127.0.0.1:8000/predict \
-     -H "Content-Type: application/json" \
-     -d '{"bill_length_mm": 39.1, "bill_depth_mm": 18.7, "flipper_length_mm": 181, "body_mass_g": 3750}'
+notebooks/module6_wine_serving_femi_rewritten.ipynb
+
+"https://github.com/Airfirm/ml-06-serving/blob/main/notebooks/ml-06_wine_serve_model_femi.ipynb"
 ```
 
-Should return the predicted result as JSON data:
+Then select:
 
-```json
-{ "prediction": "Adelie" }
+```text
+Kernel → Restart Kernel and Run All Cells
 ```
 
-Try sending some slightly different data - does it change the prediction?
-Study the data.
-Try to create a request that will answer with each of three different species (Adelie, Chinstrap, Gentoo)
+The notebook should create or update:
 
-## Try a Web-based ML Penguin Predictor on Render
-
-Render hosts your ML model for free.
-It is easy to set up, but they require a credit card (even for the free options).
-The machines sleep so it can take a minute to wake up and answer.
-See the docs/ for more.
-
-Customize the request to see what species is predicted:
-
-```shell
-# PowerShell
-curl -X POST https://ml-penguin-predictor.onrender.com/predict `
-     -H "Content-Type: application/json" `
-     -d '{"bill_length_mm": 39.1, "bill_depth_mm": 18.7, "flipper_length_mm": 181, "body_mass_g": 3750}'
-
-# macOS / Linux
-curl -X POST https://ml-penguin-predictor.onrender.com/predict \
-     -H "Content-Type: application/json" \
-     -d '{"bill_length_mm": 39.1, "bill_depth_mm": 18.7, "flipper_length_mm": 181, "body_mass_g": 3750}'
+```text
+project.log
+artifacts/wine_model_bundle.joblib
 ```
 
-## Try a Web-based ML Penguin Predictor on HuggingFace
+## Important Working-Directory Note
 
-HuggingFace also hosts your ML model for free.
-It is a bit harder to set up (they use their own repo and we upload files via the browser).
-No credit card is required.
-See the docs/ for more.
+The notebook is designed to run from the `notebooks` folder.
 
-Customize the request to see what species is predicted:
+It uses the parent directory as the project root:
 
-```shell
-# PowerShell
-curl -X POST https://denisecase-ml-penguin-predictor.hf.space/predict `
-     -H "Content-Type: application/json" `
-     -d '{"bill_length_mm": 39.1, "bill_depth_mm": 18.7, "flipper_length_mm": 181, "body_mass_g": 3750}'
-
-# macOS / Linux
-curl -X POST https://denisecase-ml-penguin-predictor.hf.space/predict \
-     -H "Content-Type: application/json" \
-     -d '{"bill_length_mm": 39.1, "bill_depth_mm": 18.7, "flipper_length_mm": 181, "body_mass_g": 3750}'
+```python
+NOTEBOOK_DIR = Path.cwd()
+PROJECT_ROOT = NOTEBOOK_DIR.parent
 ```
 
-## Findings and Visuals
+If the notebook is moved or run from a different folder, update the path configuration before running it.
 
-Take screenshots of your charts and provide them here with a discussion.
-In Markdown, display a figure by using:
-an exclamation mark immediately followed by square brackets containing a useful caption
-immediately followed by parentheses containing the relative path to your figure.
-Note: When you start typing the path with a dot (.) for "here, in this directory",
-the IDE may help complete the path.
+## Expected Workflow
 
-In your custom project, follow this example, but
+The notebook performs the following steps:
 
-- your figures and narrative should reflect your work,
-- this `README.md` should include your commands, process, and visuals, and
-- `docs/index.md` should include your narrative.
+1. Configure paths and logging.
+2. Load the wine dataset.
+3. Inspect the data and check data quality.
+4. Split the data using stratification.
+5. Train the Decision Tree and Random Forest models.
+6. Compare held-out test accuracy.
+7. perform five-fold cross-validation.
+8. Generate a classification report.
+9. Display a confusion matrix.
+10. Calculate and chart feature importance.
+11. Save the serving-ready model bundle.
+12. Test a valid prediction request.
+13. Test missing-feature validation.
+14. Write a final summary to `project.log`.
 
-Remove unnecessary instructional comments in your custom files.
+## Model Artifact
 
-Update figures to present interesting results from your custom project:
+The trained model bundle is saved to:
 
-![Provide a Useful Caption](./docs/images/Figure_1.png)
+```text
+artifacts/wine_model_bundle.joblib
+```
 
-![Provide a Useful Caption](./docs/images/Figure_2.png)
+The artifact can be loaded with:
 
-## Project Documentation
+```python
+import joblib
 
-Additional project instructions, terms, and notes:
+bundle = joblib.load("artifacts/wine_model_bundle.joblib")
+model = bundle["model"]
+feature_names = bundle["feature_names"]
+target_names = bundle["target_names"]
+```
 
-[docs/index.md](docs/index.md)
+## Logging
 
-## Citation
+The notebook writes major workflow events and results to:
 
-[CITATION.cff](./CITATION.cff)
+```text
+project.log
+```
+
+The final log summary includes:
+
+- dataset
+- target
+- feature count
+- best held-out model
+- Decision Tree accuracy
+- Random Forest accuracy
+- mean cross-validation accuracy
+- cross-validation standard deviation
+- most important feature
+- saved artifact location
+
+## Results
+
+Run the notebook and record the actual values below.
+
+- Decision Tree test accuracy: `Add result after running`
+- Random Forest test accuracy: `Add result after running`
+- Mean cross-validation accuracy: `Add result after running`
+- Cross-validation standard deviation: `Add result after running`
+- Most important feature: `Add result after running`
+
+## Interpretation
+
+The Random Forest is expected to perform well because it combines many decision trees and reduces dependence on one individual tree.
+Cross-validation provides evidence about whether the model performs consistently across different subsets of the data.
+
+Feature importance helps explain which chemical measurements are most useful for distinguishing the three wine cultivars.
+The confusion matrix shows whether any cultivar is more difficult for the model to classify.
+
+## Future Improvements
+
+Possible future improvements include:
+
+- Add a FastAPI service that loads `wine_model_bundle.joblib`.
+- Create a Pydantic request model for stronger API validation.
+- Add automated tests for valid and invalid prediction requests.
+- Compare Random Forest with Gradient Boosting.
+- Tune model hyperparameters with grid search.
+- Add model-version information to the saved metadata.
+- Save charts to an `artifacts/images/` folder.
+- Add GitHub Actions for automated testing.
+
+## Author
+
+Femi
 
 ## License
 
-[MIT](./LICENSE)
+This project is for educational use.
